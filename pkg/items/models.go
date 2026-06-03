@@ -1,6 +1,10 @@
 package items
 
-import "time"
+import (
+	"time"
+
+	"github.com/adoniaromal/products/db"
+)
 
 type Item struct {
 	ItemID               int       `db:"itemid" json:"itemid"`
@@ -50,4 +54,10 @@ type ItemImage struct {
 	ImageID  int    `db:"image_id" json:"image_id"`
 	ItemID   int    `db:"item_id" json:"item_id"`
 	ImageURL string `db:"image_url" json:"image_url"`
+}
+
+func CreateTag(tagname string) {
+	db := db.DBcon
+	tag := Tag{TagName: tagname}
+	db.NamedExec("insert into tags (tagname) values (tag_name);", tag)
 }

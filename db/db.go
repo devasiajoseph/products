@@ -8,7 +8,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Connect() (*sqlx.DB, error) {
+var DBcon *sqlx.DB
+
+func Connect() error {
 
 	user := "adonia"
 	password := "adonia"
@@ -22,12 +24,13 @@ func Connect() (*sqlx.DB, error) {
 
 	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	db.SetMaxOpenConns(25)
 	db.SetMaxIdleConns(5)
 	db.SetConnMaxLifetime(5 * time.Minute)
 
-	return db, nil
+	DBcon = db
+	return nil
 }
